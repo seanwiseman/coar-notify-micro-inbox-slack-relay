@@ -1,0 +1,1 @@
+# coar-notify-slack-receiver
