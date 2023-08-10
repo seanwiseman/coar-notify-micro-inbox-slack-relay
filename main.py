@@ -1,14 +1,14 @@
 from fastapi import (
+    BackgroundTasks,
+    Body,
     FastAPI,
     HTTPException,
     Response,
 )
 from fastapi.middleware.cors import CORSMiddleware
-from coar_notify_validator.validate import validate
 
-from models import Notification
 from slack import post_slack_message
-
+from validation import validate_notification
 
 app = FastAPI()
 
@@ -34,12 +34,12 @@ async def read_inbox_options():
 
 
 @app.post("/inbox")
-async def add_notification(notification: Notification):
-    conforms, errors = validate(notification)
+async def add_notification(background_tasks: BackgroundTasks, payload: dict = Body(...)):
+    conforms, errors = validate_notification(payload)
 
     if not conforms:
         raise HTTPException(status_code=400, detail=errors)
 
-    post_slack_message(payload=notification)
+    background_tasks.add_task(post_slack_message, payload=payload)
 
     return Response(status_code=201, content="ok")
