@@ -1,56 +1,55 @@
-from typing import Optional
-from typing_extensions import TypedDict
+from datetime import datetime
+from typing import Optional, Union
+from pydantic import BaseModel, Field
 
 
-ActorResource = TypedDict(
-    "ActorResource",
-    {
-        "id": str,
-        "type": str,
-        "name": str,
-    },
-)
+class ActorResource(BaseModel):
+    id: str
+    type: str
+    name: Union[list[str], str]
 
 
-InboxResource = TypedDict(
-    "InboxResource",
-    {
-        "id": str,
-        "type": str,
-        "inbox": str,
-    },
-)
+class InboxResource(BaseModel):
+    id: str
+    inbox: str
+    type: Union[list[str], str]
 
 
-DocumentObject = TypedDict(
-    "DocumentObject",
-    {
-        "id": str,
-        "object": Optional[str],
-        "type": Optional[list[str]],
-        "ietf:cite-as": Optional[str],
-    },
-)
+class UrlObject(BaseModel):
+    id: str
+    media_type: Optional[str] = Field(alias="mediaType", default=None)
+    type: Optional[Union[list[str], str]] = None
 
 
-ContextObject = TypedDict(
-    "ContextObject",
-    {
-        "id": str,
-    },
-)
+class DocumentObject(BaseModel):
+    id: str
+    object: Optional[str] = None
+    type: Union[list[str], str] = None
+    ietf_cite_as: Optional[str] = Field(alias="ietf:cite-as", default=None)
+    url: Optional[UrlObject] = None
 
 
-Notification = TypedDict(
-    "Notification",
-    {
-        "id": str,
-        "@context": list[str],
-        "type": list[str],
-        "origin": InboxResource,
-        "target": InboxResource,
-        "object": DocumentObject,
-        "actor": ActorResource,
-        "context": ContextObject,
-    },
-)
+class ContextObject(BaseModel):
+    id: str
+
+
+class Notification(BaseModel):
+    id: str
+    updated: Optional[datetime] = Field(default_factory=datetime.utcnow)
+    at_context: list[str] = Field(alias="@context")
+    type: Union[list[str], str]
+    origin: InboxResource
+    target: InboxResource
+    object: DocumentObject
+    actor: ActorResource
+    context: Optional[ContextObject] = None
+    in_reply_to: Optional[str] = Field(alias="inReplyTo", default=None)
+
+    class Config:
+        use_alias = True
+        populate_by_name = True
+
+
+class NotificationState(BaseModel):
+    id: str
+    read: bool
