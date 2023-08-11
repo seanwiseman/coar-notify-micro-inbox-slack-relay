@@ -54,4 +54,3 @@ def test_post_slack_message_exception(mocked_requests_post, caplog):
     with caplog.at_level(logging.INFO):
         post_slack_message(payload)
         assert "An error occurred while trying to post the message to Slack." in caplog.messages[0]
-

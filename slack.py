@@ -50,7 +50,8 @@ def post_slack_message(payload: dict) -> None:
             json={
                 "channel": SLACK_CHANNEL,
                 **format_payload_into_slack_blocks(payload),
-            }
+            },
+            timeout=(10, 10),
         )
         response.raise_for_status()
 
@@ -60,4 +61,4 @@ def post_slack_message(payload: dict) -> None:
             logger.warning(f"Failed to post message to Slack. Response: {response.json()}")
 
     except RequestException:
-        logger.exception(f"An error occurred while trying to post the message to Slack.")
+        logger.exception("An error occurred while trying to post the message to Slack.")
