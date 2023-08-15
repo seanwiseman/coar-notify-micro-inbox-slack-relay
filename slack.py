@@ -14,7 +14,62 @@ SLACK_POST_MESSAGE_API_URL = "https://slack.com/api/chat.postMessage"
 
 
 def format_review_offer_payload_into_slack_blocks(data: dict) -> dict:
-    return data
+    return {
+        "blocks": [
+            {
+                "type": "header",
+                "text": {
+                    "type": "plain_text",
+                    "text": "COAR Notification: Review Offer"
+                }
+            },
+            {
+                "type": "divider"
+            },
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f"For: <{data.get('object', {}).get('ietf:cite-as')}|"
+                            f"{data.get('object', {}).get('id')}>"
+                }
+            },
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f"From: <{data.get('actor', {}).get('id')}|"
+                            f"{data.get('actor', {}).get('name')}>"
+                }
+            },
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f"Sent via: <{data.get('target', {}).get('id')}>"
+                }
+            },
+            {
+                "type": "context",
+                "elements": [
+                    {
+                        "type": "plain_text",
+                        "text": "Detail:"
+                    }
+                ]
+            },
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f"```{json.dumps(data, indent=4)}```",
+                },
+            },
+            {
+                "type": "divider",
+            },
+        ]
+    }
 
 
 def format_payload_into_slack_blocks(data: dict) -> dict:
