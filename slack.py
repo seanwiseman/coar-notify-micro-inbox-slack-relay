@@ -5,14 +5,16 @@ import logging
 import requests
 from requests.exceptions import RequestException
 
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
 
 SLACK_CHANNEL = os.environ.get("SLACK_CHANNEL")
 SLACK_API_TOKEN = os.environ.get("SLACK_API_TOKEN")
 SLACK_POST_MESSAGE_API_URL = "https://slack.com/api/chat.postMessage"
+
+
+def format_review_offer_payload_into_slack_blocks(data: dict) -> dict:
+    return data
 
 
 def format_payload_into_slack_blocks(data: dict) -> dict:
@@ -39,8 +41,19 @@ def format_payload_into_slack_blocks(data: dict) -> dict:
     }
 
 
+FORMATTERS = {
+    "Offer:coar-notify:ReviewAction": format_review_offer_payload_into_slack_blocks
+}
+
+
+def get_formatter_for_payload(payload: dict) -> callable:
+    return FORMATTERS.get(":".join(payload.get("type", "")), format_payload_into_slack_blocks)
+
+
 def post_slack_message(payload: dict) -> None:
     try:
+        formatter = get_formatter_for_payload(payload)
+
         response = requests.post(
             url=SLACK_POST_MESSAGE_API_URL,
             headers={
@@ -49,7 +62,7 @@ def post_slack_message(payload: dict) -> None:
             },
             json={
                 "channel": SLACK_CHANNEL,
-                **format_payload_into_slack_blocks(payload),
+                **formatter(payload),
             },
             timeout=(10, 10),
         )

@@ -1,9 +1,15 @@
 import logging
 from unittest.mock import patch
 
+import pytest
 from requests.exceptions import RequestException
 
-from slack import format_payload_into_slack_blocks, post_slack_message
+from slack import (
+    format_payload_into_slack_blocks,
+    format_review_offer_payload_into_slack_blocks,
+    get_formatter_for_payload,
+    post_slack_message,
+)
 
 
 class TestFormatPayloadIntoSlackBlocks:
@@ -54,3 +60,35 @@ def test_post_slack_message_exception(mocked_requests_post, caplog):
     with caplog.at_level(logging.INFO):
         post_slack_message(payload)
         assert "An error occurred while trying to post the message to Slack." in caplog.messages[0]
+
+
+@pytest.mark.parametrize(
+    "payload, expected",
+    [
+        (
+            {"type": ["Offer", "coar-notify", "ReviewAction"]},
+            format_review_offer_payload_into_slack_blocks
+        ),
+        (
+            {"type": ["Offer", "coar-notify", "AcceptAction"]},
+            format_payload_into_slack_blocks
+        ),
+        (
+            {"type": ["Offer", "coar-notify", "AnnounceAction"]},
+            format_payload_into_slack_blocks
+        ),
+        (
+            {"type": ["Offer", "coar-notify", "InvalidAction"]},
+            format_payload_into_slack_blocks
+        ),
+        (
+            {"message": "test"},
+            format_payload_into_slack_blocks
+        ),
+        (
+            {},
+            format_payload_into_slack_blocks
+        ),
+])
+def test_get_formatter_for_payload_returns_default(payload, expected):
+    assert get_formatter_for_payload(payload) == expected
