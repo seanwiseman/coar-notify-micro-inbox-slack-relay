@@ -142,7 +142,7 @@ def test_format_review_offer_payload_into_slack_blocks_success():
                         "type": "plain_text",
                         "text": "Write a PREreview"
                     },
-                    "url": "https://sandbox.prereview.org/preprints/doi-10.1101-234567/write-a-prereview/start-now"
+                    "url": "https://sandbox.prereview.org/preprints/doi-10.1101-234567/write-a-prereview"
                 }
             }
         ]

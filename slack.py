@@ -33,7 +33,7 @@ def format_review_offer_payload_into_slack_blocks(data: dict) -> dict:
                         "text": "Write a PREreview"
                     },
                     "url": f"https://sandbox.prereview.org/preprints/"
-                           f"doi-{doi.replace('/', '-')}/write-a-prereview/start-now"
+                           f"doi-{doi.replace('/', '-')}/write-a-prereview"
                 }
             }
         ]
