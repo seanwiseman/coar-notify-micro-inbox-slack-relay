@@ -32,7 +32,8 @@ def format_review_offer_payload_into_slack_blocks(data: dict) -> dict:
                         "type": "plain_text",
                         "text": "Write a PREreview"
                     },
-                    "url": "https://sandbox.prereview.org/preprints/doi-10.1101-234567/write-a-prereview/start-now"
+                    "url": f"https://sandbox.prereview.org/preprints/"
+                           f"doi-{doi.replace('/', '-')}/write-a-prereview/start-now"
                 }
             }
         ]
