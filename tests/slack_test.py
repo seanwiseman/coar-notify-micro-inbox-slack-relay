@@ -1,4 +1,3 @@
-import json
 import logging
 from unittest.mock import patch
 
@@ -134,7 +133,8 @@ def test_format_review_offer_payload_into_slack_blocks_success():
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": "A new request has come in for a PREreview of <https://doi.org/10.1101/234567|10.1101/234567> by John Doe on bioRxiv."
+                    "text": "A new request from John Doe has come in for a PREreview of "
+                            "<https://doi.org/10.1101/234567|10.1101/234567> on bioRxiv.",
                 },
                 "accessory": {
                     "type": "button",
@@ -142,7 +142,8 @@ def test_format_review_offer_payload_into_slack_blocks_success():
                         "type": "plain_text",
                         "text": "Write a PREreview"
                     },
-                    "url": "https://sandbox.prereview.org/preprints/doi-10.1101-234567/write-a-prereview"
+                    "url": "https://sandbox.prereview.org/"
+                           "preprints/doi-10.1101-234567/write-a-prereview"
                 }
             }
         ]

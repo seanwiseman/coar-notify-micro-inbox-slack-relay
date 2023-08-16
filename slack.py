@@ -23,8 +23,8 @@ def format_review_offer_payload_into_slack_blocks(data: dict) -> dict:
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": f"A new request has come in for a PREreview of "
-                            f"<https://doi.org/{doi}|{doi}> by {actor_name} on bioRxiv."
+                    "text": f"A new request from {actor_name} has come in for a PREreview of "
+                            f"<https://doi.org/{doi}|{doi}> on bioRxiv."
                 },
                 "accessory": {
                     "type": "button",
