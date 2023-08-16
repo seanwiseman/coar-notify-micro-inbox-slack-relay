@@ -118,8 +118,8 @@ def test_format_review_offer_payload_into_slack_blocks_success():
             "type": "Service"
         },
         "object": {
-            "id": "10.1111/234567",
-            "ietf:cite-as": "https://doi.org/10.1111/234567",
+            "id": "10.1101/234567",
+            "ietf:cite-as": "https://doi.org/10.1101/234567",
         },
         "actor": {
             "id": "https://orcid.org/0001-0002-0003-0004",

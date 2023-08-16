@@ -15,6 +15,7 @@ SLACK_POST_MESSAGE_API_URL = "https://slack.com/api/chat.postMessage"
 
 def format_review_offer_payload_into_slack_blocks(data: dict) -> dict:
     actor_name = data.get("actor", {}).get("name", "the author")
+    doi = data.get("object", {}).get("id", "")
 
     return {
         "blocks": [
@@ -23,7 +24,7 @@ def format_review_offer_payload_into_slack_blocks(data: dict) -> dict:
                 "text": {
                     "type": "mrkdwn",
                     "text": f"A new request has come in for a PREreview of "
-                            f"<https://doi.org/10.1101/234567|10.1101/234567> by {actor_name} on bioRxiv."
+                            f"<https://doi.org/{doi}|{doi}> by {actor_name} on bioRxiv."
                 },
                 "accessory": {
                     "type": "button",
