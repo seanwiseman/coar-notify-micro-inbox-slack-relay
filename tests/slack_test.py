@@ -130,56 +130,22 @@ def test_format_review_offer_payload_into_slack_blocks_success():
 
     expected = {
         "blocks": [
-            {
-                "type": "header",
-                "text": {
-                    "text": "COAR Notification: Review Offer",
-                    "type": "plain_text"
-                },
-            },
-            {
-                "type": "divider"
-            },
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": "For: ""<https://doi.org/10.1111/234567|10.1111/234567>",
-                },
-            },
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": "From: ""<https://orcid.org/0001-0002-0003-0004|John Doe>",
-                },
-            },
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": "Sent via: <https://www.review-service.org>",
-                },
-            },
-            {
-                "type": "context",
-                "elements": [
-                    {
-                        "type": "plain_text",
-                        "text": "Detail:",
-                    }
-                ],
-            },
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": f"```{json.dumps(payload, indent=4)}```",
-                },
-            },
-            {
-                "type": "divider"
-            }
-        ]
-    }
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "A new request has come in for a PREreview of <https://doi.org/10.1101/234567|10.1101/234567> by John Doe on bioRxiv."
+			},
+			"accessory": {
+				"type": "button",
+				"text": {
+					"type": "plain_text",
+					"text": "Write a PREreview"
+				},
+				"url": "https://sandbox.prereview.org/preprints/doi-10.1101-234567/write-a-prereview/start-now"
+			}
+		}
+	]
+}
+    
     assert format_review_offer_payload_into_slack_blocks(payload) == expected

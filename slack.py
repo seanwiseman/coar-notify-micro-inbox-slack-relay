@@ -15,61 +15,25 @@ SLACK_POST_MESSAGE_API_URL = "https://slack.com/api/chat.postMessage"
 
 def format_review_offer_payload_into_slack_blocks(data: dict) -> dict:
     return {
-        "blocks": [
-            {
-                "type": "header",
-                "text": {
-                    "type": "plain_text",
-                    "text": "COAR Notification: Review Offer"
-                }
-            },
-            {
-                "type": "divider"
-            },
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": f"For: <{data.get('object', {}).get('ietf:cite-as')}|"
-                            f"{data.get('object', {}).get('id')}>"
-                }
-            },
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": f"From: <{data.get('actor', {}).get('id')}|"
-                            f"{data.get('actor', {}).get('name')}>"
-                }
-            },
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": f"Sent via: <{data.get('target', {}).get('id')}>"
-                }
-            },
-            {
-                "type": "context",
-                "elements": [
-                    {
-                        "type": "plain_text",
-                        "text": "Detail:"
-                    }
-                ]
-            },
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": f"```{json.dumps(data, indent=4)}```",
-                },
-            },
-            {
-                "type": "divider",
-            },
-        ]
-    }
+	"blocks": [
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "A new request has come in for a PREreview of <https://doi.org/10.1101/234567|10.1101/234567> by John Doe on bioRxiv."
+			},
+			"accessory": {
+				"type": "button",
+				"text": {
+					"type": "plain_text",
+					"text": "Write a PREreview"
+				},
+				"url": "https://sandbox.prereview.org/preprints/doi-10.1101-234567/write-a-prereview/start-now"
+			}
+		}
+	]
+}
+    
 
 
 def format_payload_into_slack_blocks(data: dict) -> dict:
