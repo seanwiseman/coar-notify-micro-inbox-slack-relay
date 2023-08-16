@@ -25,7 +25,7 @@ The app requires the following environment variables to be set:
 ## Setting up Slack
 
 - Create a new App in Slack https://api.slack.com/apps/
-- Add a chat:write permission
+- Add a chat:write bot token scope
 - Add OAuth token for your workspace
 - Add the token to your environment variables
 - In Slack create your target channel if required
