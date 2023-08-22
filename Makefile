@@ -1,4 +1,12 @@
-.PHONY: install install-dev start flake8 pylint lint
+.PHONY: install install-dev start flake8 pylint lint venv-create
+
+VENV = venv
+PIP = $(VENV)/bin/pip
+PYTHON = $(VENV)/bin/python
+
+
+venv-create:
+	python3 -m venv $(VENV)
 
 install:
 	pip install -r requirements.txt
