@@ -133,8 +133,8 @@ def test_format_review_offer_payload_into_slack_blocks_success():
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": "A new request from John Doe has come in for a PREreview of "
-                            "<https://doi.org/10.1101/234567|10.1101/234567> on bioRxiv.",
+                    "text": "A new request from John Doe has come in for a review of "
+                            "<https://doi.org/10.1101/234567|10.1101/234567>",
                 },
                 "accessory": {
                     "type": "button",
