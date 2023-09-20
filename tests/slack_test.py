@@ -5,6 +5,7 @@ import pytest
 from requests.exceptions import RequestException
 
 from slack import (
+    format_doi,
     format_payload_into_slack_blocks,
     format_review_offer_payload_into_slack_blocks,
     get_formatter_for_payload,
@@ -150,3 +151,12 @@ def test_format_review_offer_payload_into_slack_blocks_success():
     }
 
     assert format_review_offer_payload_into_slack_blocks(payload) == expected
+
+
+@pytest.mark.parametrize("doi, expected", [
+    ("10.1101/234567", "10.1101-234567"),
+    ("10.1101/234-567", "10.1101-234+567"),
+    ("10.1590/SciELOPreprints.6815", "10.1590-scielopreprints.6815"),
+])
+def test_format_doi(doi: str, expected: str):
+    assert format_doi(doi) == expected

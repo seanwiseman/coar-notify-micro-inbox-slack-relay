@@ -14,7 +14,7 @@ SLACK_POST_MESSAGE_API_URL = "https://slack.com/api/chat.postMessage"
 
 
 def format_doi(doi: str) -> str:
-    return doi.replace('/', '-')
+    return doi.lower().replace('-', '+').replace('/', '-')
 
 
 def format_review_offer_payload_into_slack_blocks(data: dict) -> dict:
