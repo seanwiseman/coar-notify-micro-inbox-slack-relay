@@ -11,4 +11,5 @@
 # flyctl launch added from .virtualenv/.gitignore
 # created by virtualenv automatically
 .virtualenv/**/*
+venv/
 fly.toml
