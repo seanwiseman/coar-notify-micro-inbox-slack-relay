@@ -13,6 +13,10 @@ SLACK_API_TOKEN = os.environ.get("SLACK_API_TOKEN")
 SLACK_POST_MESSAGE_API_URL = "https://slack.com/api/chat.postMessage"
 
 
+def format_doi(doi: str) -> str:
+    return doi.replace('/', '-')
+
+
 def format_review_offer_payload_into_slack_blocks(data: dict) -> dict:
     actor_name = data.get("actor", {}).get("name", "the author")
     doi = data.get("object", {}).get("id", "")
@@ -33,7 +37,7 @@ def format_review_offer_payload_into_slack_blocks(data: dict) -> dict:
                         "text": "Write a PREreview"
                     },
                     "url": f"https://sandbox.prereview.org/preprints/"
-                           f"doi-{doi.replace('/', '-')}/write-a-prereview"
+                           f"doi-{format_doi(doi)}/write-a-prereview"
                 }
             }
         ]
