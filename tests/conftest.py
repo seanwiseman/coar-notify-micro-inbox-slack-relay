@@ -1,4 +1,22 @@
+from unittest.mock import Mock
+
 import pytest
+from tinydb import TinyDB
+from tinydb.storages import MemoryStorage
+
+
+# Enable in-memory database for testing
+TinyDB.default_storage_class = MemoryStorage
+
+
+@pytest.fixture
+def mock_db():
+    mock = Mock()
+    mock.table.return_value = Mock(
+        insert=Mock(),
+        search=Mock(return_value=[])
+    )
+    return mock
 
 
 @pytest.fixture
