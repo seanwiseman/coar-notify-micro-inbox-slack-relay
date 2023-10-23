@@ -1,3 +1,5 @@
+import json
+
 from fastapi import (
     BackgroundTasks,
     Body,
@@ -7,8 +9,11 @@ from fastapi import (
 )
 from fastapi.middleware.cors import CORSMiddleware
 
+from db import notifications
+from db.models import Notification
 from slack import post_slack_message
 from validation import validate_notification
+
 
 app = FastAPI()
 
@@ -40,6 +45,21 @@ async def add_notification(background_tasks: BackgroundTasks, payload: dict = Bo
     if not conforms:
         raise HTTPException(status_code=400, detail=errors)
 
+    await notifications.create(payload)
+
     background_tasks.add_task(post_slack_message, payload=payload)
 
     return Response(status_code=201, content="ok")
+
+
+@app.get("/inbox/{notification_id}", response_model=Notification)
+async def read_notification(notification_id: str):
+    notification = await notifications.get_by_id(notification_id)
+
+    if notification:
+        return Response(
+            headers={"content-type": "application/ld+json"},
+            content=json.dumps(notification, default=str),
+        )
+
+    raise HTTPException(status_code=404, detail="Notification not found")

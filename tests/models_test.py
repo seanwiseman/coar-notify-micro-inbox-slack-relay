@@ -1,4 +1,4 @@
-from models import Notification
+from db.models import Notification
 
 
 def test_notification(valid_notification_payload):
