@@ -4,3 +4,7 @@ __pycache__/
 fly.toml
 /api_tests/
 /venv/
+
+.env
+
+db.json
