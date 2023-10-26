@@ -45,7 +45,7 @@ async def add_notification(background_tasks: BackgroundTasks, payload: dict = Bo
     if not conforms:
         raise HTTPException(status_code=400, detail=errors)
 
-    await notifications.create(payload)
+    await notifications.create(Notification(**payload))
 
     background_tasks.add_task(post_slack_message, payload=payload)
 

@@ -23,9 +23,9 @@ class NotificationDBContextManager:
         self._db.close()
 
 
-async def create(notification: dict) -> None:
+async def create(notification: Notification) -> None:
     with NotificationDBContextManager() as notifications_table:
-        notifications_table.insert(notification)
+        notifications_table.insert(notification.model_dump(by_alias=True))
 
 
 async def get_by_id(notification_id: str) -> Optional[Notification]:

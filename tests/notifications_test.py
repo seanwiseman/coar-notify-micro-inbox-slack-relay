@@ -3,21 +3,19 @@ from unittest.mock import patch, call
 import pytest
 from tinydb import Query
 
+from db.models import Notification
 from db.notifications import create, get_by_id
 
 
 @pytest.mark.asyncio
-async def test_create_inserts_notification(mock_db):
-    notification_data = {
-        "id": "12345",
-        "message": "Test notification"
-    }
+async def test_create_inserts_notification(mock_db, valid_notification_payload):
+    notification = Notification(**valid_notification_payload)
 
     with patch('db.notifications.get_db', return_value=mock_db):
-        await create(notification_data)
+        await create(notification)
 
     mock_db.table.assert_called_once_with("notifications")
-    mock_db.table().insert.assert_called_once_with(notification_data)
+    mock_db.table().insert.assert_called_once_with(notification.model_dump(by_alias=True))
 
 
 @pytest.mark.asyncio
