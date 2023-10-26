@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Optional, Union
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_serializer
 
 
 class ActorResource(BaseModel):
@@ -48,6 +48,10 @@ class Notification(BaseModel):
     class Config:
         use_alias = True
         populate_by_name = True
+
+    @field_serializer("updated")
+    def serialize_updated(self, updated: datetime, _info):
+        return updated.isoformat()
 
 
 class NotificationState(BaseModel):
